@@ -32,7 +32,11 @@ inline double vector_kron_product(double x, double y) {
 }
 template<class T>
 inline auto vector_kron_product(Vector3P<T> x, Vector3P<T> y) {
-	return x * y.transpose();
+	Tensor3P<T> z;
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			z(i, j) = x(i) * y(j);
+	return z;
 }
 
 template<bool sym>
