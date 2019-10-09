@@ -15,7 +15,7 @@ int main()
 	b << 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
 	ComplexValue<false> c = tensor_vector_mult(b, a);
-
+	ComplexValue<false> d = vector_kron_product(a, a);
 	std::cout << c << '\n';
 
     std::cout << "Hello World!\n"; 

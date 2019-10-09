@@ -22,10 +22,17 @@ using Diag3P = Eigen::DiagonalMatrix<T, 3>;
 inline double tensor_vector_mult(double x, double y) {
 	return x * y;
 }
-
 template<class T>
 inline auto tensor_vector_mult(Tensor3P<T> x, Vector3P<T> y) {
 	return (x.matrix() * y.matrix()).array();
+}
+
+inline double vector_kron_product(double x, double y) {
+	return x * y;
+}
+template<class T>
+inline auto vector_kron_product(Vector3P<T> x, Vector3P<T> y) {
+	return x * y.transpose();
 }
 
 template<bool sym>
