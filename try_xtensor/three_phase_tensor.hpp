@@ -11,32 +11,33 @@ namespace three_phase_tensor {
 using DoubleComplex = std::complex<double>;
 
 template<class T>
-using Vector3P = Eigen::Matrix<T, 3, 1, Eigen::DontAlign>;
+using Vector3P = Eigen::Array<T, 3, 1, Eigen::DontAlign>;
 
 template<class T>
-using Tensor3P = Eigen::Matrix<T, 3, 3, Eigen::RowMajor | Eigen::DontAlign>;
-
-template<class T>
-using Diag3P = Eigen::DiagonalMatrix<T, 3>;
+using Tensor3P = Eigen::Array<T, 3, 3, Eigen::RowMajor | Eigen::DontAlign>;
 
 
 inline double vector_kron_product(double x, double y) {
 	return x * y;
 }
-template<class T>
-inline auto vector_kron_product(Vector3P<T> x, Vector3P<T> y) {
-	return x * y.transpose();
+template <typename DerivedA, typename DerivedB>
+inline auto vector_kron_product(
+	Eigen::ArrayBase<DerivedA> const& x, 
+	Eigen::ArrayBase<DerivedB> const& y) {
+	return (x.matrix() * y.matrix().transpose()).array();
 }
 
-inline double ele_mult(double x, double y) {
+inline double tensor_vector_mult(double x, double y) {
 	return x * y;
 }
-inline DoubleComplex ele_mult(DoubleComplex x, DoubleComplex y) {
+inline DoubleComplex tensor_vector_mult(DoubleComplex x, DoubleComplex y) {
 	return x * y;
 }
-template<class T>
-inline auto ele_mult(Vector3P<T> x, Vector3P<T> y) {
-	return x.cwiseProduct(y);
+template <typename DerivedA, typename DerivedB>
+inline auto tensor_vector_mult(
+	Eigen::ArrayBase<DerivedA> const& x,
+	Eigen::ArrayBase<DerivedB> const& y) {
+	return (x.matrix()  * y.matrix()).array();
 }
 
 template<bool sym>
